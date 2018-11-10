@@ -15,16 +15,15 @@ class Employee{
     this.employeeid = employeeid;
     this.employeetitle = employeetitle;
     this.annualsalary = annualsalary;
-    // this.monthlysalary = monthlysalary;
   }//end of constructor
 }//end of class
 //Makes inputs and appends them to DOM
 function inputSubmitted(){
-if($('#firstName').val()=== '' || $('#lastName').val() === '' || $('#employeeNumber').val() === ''|| $('#employeeTitle').val()=== '' ||
-$('#annualSalary').val() === ''){
-alert('All Fields Not Enter Please Try Again');
-return 'in inputSubmitted'
-}
+  if($('#firstName').val()=== '' || $('#lastName').val() === '' || $('#employeeNumber').val() === ''|| $('#employeeTitle').val()=== '' ||
+  $('#annualSalary').val() === ''){
+    alert('All Fields Not Enter Please Try Again');
+    return 'in inputSubmitted'
+  }
   let isEmployee = new Employee(
     $('#firstName').val(),
     $('#lastName').val(),
@@ -32,16 +31,30 @@ return 'in inputSubmitted'
     $('#employeeTitle').val(),
     $('#annualSalary').val()
   )//end of input variable
+
   employees.push(isEmployee);
-  $('#content').append(`<tr>
-    <td>${isEmployee.firstname}</td>
-    <td>${isEmployee.lastname}</td>
-    <td>${isEmployee.employeeid}</td>
-    <td>${isEmployee.employeetitle}</td>
-    <td>${isEmployee.annualsalary}</td></tr>`
+  $('#content').append(`<tr id = "${isEmployee.employeeid}">
+  <td>${isEmployee.firstname}</td>
+  <td>${isEmployee.lastname}</td>
+  <td>${isEmployee.employeeid}</td>
+  <td>${isEmployee.employeetitle}</td>
+  <td>${isEmployee.annualsalary}</td>
+  <td><button id = "${isEmployee.employeeid}">Delete</button></td>
+  </tr>`
   )//end of appending
-  for(employee of employees){
-  let monthlyTotal = Math.round(employee.annualsalary/12)
-$('#container').append(`<li>Total Monthly Salary = ${monthlyTotal}`)
-}
+  $(`#${isEmployee.employeeid}`).on('click' , inputRemoved)
+  function inputRemoved(){
+    console.log('in delete button');
+    $(`#${isEmployee.employeeid}`).remove();
+  }
+
+//Getting the total monthly salary
+let monthlyTotal = 0;
+for(let employee of employees){
+  monthlyTotal += parseInt(employee.annualsalary/12);
+  console.log(monthlyTotal);
+    $('#container').empty();
+    $('#container').append(`<li>Total Monthly Salary = ${monthlyTotal}</li>`)
+  }
 }//end of input submitted
+//Delete button logic
