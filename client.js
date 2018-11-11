@@ -49,10 +49,11 @@ function updateMonthly(){
   $('#container').empty();
   $('#container').append(`<li id ="monthlySalary">Total Monthly Salary = ${monthlyTotal.toFixed(2)}</li>`)
   console.log(monthlyTotal);
-  if(monthlyTotal > 20000){
-    $('#container').css("background-color:" , "red");
-  }//end of if
 }//end of monthly update
+//Compare monthlyTotal to 200000 and if it is greater change the css background color to red
+if(monthlyTotal > 20000){
+  $("li").css("background-color", "red");
+}//end of if
 //Delete button logic and remvoing monthly salary logic
 $(`.${isEmployee.employeeid}`).on('click' , inputRemoved)
 function inputRemoved(){
@@ -63,7 +64,7 @@ function inputRemoved(){
       $('#monthlySalary').text(`Total Monthly Salary = ${monthlyTotal.toFixed(2)}`);
       $(`.${isEmployee.employeeid}`).remove();
       if(monthlyTotal < 20000){
-        $('#monthlySalary').css('color: red')
+        $("li").css("background-color", "white");
       }//end of if
     }//end of if
   }//end of for
