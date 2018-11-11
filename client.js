@@ -1,9 +1,7 @@
 $(document).ready(readyNow)
-
 function readyNow(){
   $('#submitButton').on('click', inputSubmitted)
 }//end of ready now
-
 const employees = []
 let monthlyTotal = 0;
 class Employee{
@@ -17,8 +15,10 @@ class Employee{
 }//end of class
 //Makes inputs and appends them to DOM
 function inputSubmitted(){
-
-  if($('#firstName').val()=== '' || $('#lastName').val() === '' || $('#employeeNumber').val() === ''|| $('#employeeTitle').val()=== '' ||
+  if($('#firstName').val()=== '' ||
+  $('#lastName').val() === '' ||
+  $('#employeeNumber').val() === ''||
+  $('#employeeTitle').val()=== '' ||
   $('#annualSalary').val() === ''){
     alert('All Fields Not Enter Please Try Again');
     return 'in inputSubmitted'
@@ -37,38 +37,35 @@ function inputSubmitted(){
   <td>${isEmployee.lastname}</td>
   <td>${isEmployee.employeeid}</td>
   <td>${isEmployee.employeetitle}</td>
-  <td>${parseInt(isEmployee.annualsalary)}</td>
+  <td>${parseFloat(isEmployee.annualsalary)}</td>
   <td><button class = "${isEmployee.employeeid}">Delete</button></td>
   </tr>`
 )//end of appending
 updateMonthly();
 //Getting the total monthly salary
 function updateMonthly(){
-  for(let employee of employees){
-    console.log(typeof monthlyTotal);
-    monthlyTotal +=(parseFloat(employee.annualsalary/12));
-    monthlyTotal = parseInt(monthlyTotal.toFixed(2));
-    console.log(monthlyTotal);
-    if(monthlyTotal > 20000){
-      $('#monthlySalary').addClass('.red');
-    }//end of if
-  }//end of loop
+  monthlyTotal +=(isEmployee.annualsalary/12);
+  monthlyTotal = parseFloat(monthlyTotal.toFixed(2));
   $('#container').empty();
+  $('#container').append(`<li id ="monthlySalary">Total Monthly Salary = ${monthlyTotal.toFixed(2)}</li>`)
   console.log(monthlyTotal);
-  $('#container').append(`<li id ="monthlySalary">Total Monthly Salary = ${monthlyTotal}</li>`)
-
+  if(monthlyTotal > 20000){
+    $('#container').css("background-color:" , "red");
+  }//end of if
 }//end of monthly update
-//Delete button logic
+//Delete button logic and remvoing monthly salary logic
 $(`.${isEmployee.employeeid}`).on('click' , inputRemoved)
 function inputRemoved(){
-  // for(let employee of employees){
-  //   if(parseInt(employee.employeeid) == isEmployee.employeeid){
-  //     employees.splice(employee , 1)
-  let salaryNumber = parseFloat(isEmployee.annualsalary);
-  $('#monthlySalary').text(`${monthlyTotal - (salaryNumber/12).toFixed(2)}`)
-  console.log(typeof salaryNumber);
-//end of if
-$(`.${isEmployee.employeeid}`).remove();
-//loop ends
+  for(let employee of employees){
+    if(employee.employeeid == isEmployee.employeeid){
+      monthlyTotal -= (isEmployee.annualsalary/12);
+      employees.splice(employee , 1)
+      $('#monthlySalary').text(`Total Monthly Salary = ${monthlyTotal.toFixed(2)}`);
+      $(`.${isEmployee.employeeid}`).remove();
+      if(monthlyTotal < 20000){
+        $('#monthlySalary').css('color: red')
+      }//end of if
+    }//end of if
+  }//end of for
 }//end of inputRemoved
 }//end of input submitted
