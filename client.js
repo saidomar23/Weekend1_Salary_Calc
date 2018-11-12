@@ -65,8 +65,12 @@ function inputRemoved(){
   for(let employee of employees){
     if(employee.employeeid == isEmployee.employeeid){
       monthlyTotal -= (isEmployee.annualsalary/12);
-      $('#monthlySalary').text(`Total Monthly Salary = $${monthlyTotal.toFixed(2)}`);
+      $('#monthlySalary').text(`Total Monthly Salary = $${Math.round(monthlyTotal.toFixed(2))}`);
       $(`.${isEmployee.employeeid}`).remove();
+      if(monthlyTotal < 0){
+        monthlyTotal = 0
+        $('#monthlySalary').text(`Total Monthly Salary = $${Math.round(monthlyTotal.toFixed(2))}`);
+      }
       if(monthlyTotal < 20000){
         $("li").css("background-color", "white");
       }//end of if
