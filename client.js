@@ -37,21 +37,26 @@ function inputSubmitted(){
   <td>${isEmployee.lastname}</td>
   <td>${isEmployee.employeeid}</td>
   <td>${isEmployee.employeetitle}</td>
-  <td>${parseFloat(isEmployee.annualsalary)}</td>
-  <td><button class = "${isEmployee.employeeid}">Delete</button></td>
+  <td>$${parseFloat(isEmployee.annualsalary)}</td>
+  <td><button class = "${isEmployee.employeeid} btn btn-danger" >Delete</button></td>
   </tr>`
 )//end of appending
+$('#firstName').val('');
+$('#lastName').val('');
+$('#employeeNumber').val('');
+$('#employeeTitle').val('');
+$('#annualSalary').val('');
 updateMonthly();
 //Getting the total monthly salary
 function updateMonthly(){
   monthlyTotal +=(isEmployee.annualsalary/12);
   monthlyTotal = parseFloat(monthlyTotal.toFixed(2));
   $('#container').empty();
-  $('#container').append(`<li id ="monthlySalary">Total Monthly Salary = ${monthlyTotal.toFixed(2)}</li>`)
+  $('#container').append(`<li id ="monthlySalary">Total Monthly Salary = $${monthlyTotal.toFixed(2)}</li>`)
   console.log(monthlyTotal);
 }//end of monthly update
 //Compare monthlyTotal to 200000 and if it is greater change the css background color to red
-if(monthlyTotal > 20000){
+if(monthlyTotal >= 20000){
   $("li").css("background-color", "red");
 }//end of if
 //Delete button logic and remvoing monthly salary logic
@@ -60,8 +65,7 @@ function inputRemoved(){
   for(let employee of employees){
     if(employee.employeeid == isEmployee.employeeid){
       monthlyTotal -= (isEmployee.annualsalary/12);
-      employees.splice(employee , 1)
-      $('#monthlySalary').text(`Total Monthly Salary = ${monthlyTotal.toFixed(2)}`);
+      $('#monthlySalary').text(`Total Monthly Salary = $${monthlyTotal.toFixed(2)}`);
       $(`.${isEmployee.employeeid}`).remove();
       if(monthlyTotal < 20000){
         $("li").css("background-color", "white");
